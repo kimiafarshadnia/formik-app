@@ -1,11 +1,23 @@
 import { useFormik } from "formik";
+import { useState } from "react";
 import * as Yup from 'yup';
 //1
+
+const savedData = {
+  name: "kimia",
+  email: "farshadniakimia@gmail.com",
+  phone:"09134246753",
+  gender:"1",
+  password: "Kimia12#",
+  passwordConfirm:"Kimia12#",
+};
+
+
 const initialValues = {
   name: "",
   email: "",
   phone:"",
-  
+  gender:"",
   password: "",
   passwordConfirm:"",
 };
@@ -17,11 +29,13 @@ const onSubmit = (values) => {
 
 //3
 const validationSchema = Yup.object({
-  name : Yup.string().required("name is required").min(6, 'Name lenght is not valid'),
+  name : Yup.string().required("name is required"),
    
   email : Yup.string().email("Invalid email format").required("Email is required"),
   
   phone: Yup.string().required("phone number is required").matches(/^[0-9]{11}$/,"Invalid phone number ").nullable(),
+
+  gender: Yup.string().required('Gender is required'),
 
   password : Yup.string().required("Password is required").matches(
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
@@ -33,10 +47,15 @@ const validationSchema = Yup.object({
 })
 
 const SignUpForm = () => {
+
+  const [formValues , setFormValues] = useState(null);
+
   const formik = useFormik({
-    initialValues,
+    initialValues: formValues || initialValues,
     onSubmit,
     validationSchema,
+    validateOnMount : true, 
+    enableReinitialize : true,
   });
 
   console.log("visited field", formik.touched);
@@ -65,6 +84,18 @@ const SignUpForm = () => {
         />{" "}
         {formik.errors.email && formik.touched.email && (
           <div className="error">{formik.errors.email}</div>
+        )}
+      </div>
+
+      <div>
+        <input type="radio" name="gender" id="0" value="0" onChange={formik.handleChange} checked={formik.values.gender === "0"}/>
+        <label htmlFor="0">Male</label>
+
+        <input type="radio" name="gender" id="1" value="1" onChange={formik.handleChange}  checked={formik.values.gender === "1"}/>
+        <label htmlFor="1">Female</label>
+
+        {formik.errors.gender && formik.touched.gender && (
+          <div className="error">{formik.errors.gender}</div>
         )}
       </div>
 
@@ -107,7 +138,8 @@ const SignUpForm = () => {
         )}
       </div>
 
-      <button type="submit">Submit</button>
+      <button onClick={() => setFormValues(savedData)}>Load Data</button>
+      <button type="submit" disabled={!formik.isValid}>Submit</button>
     </form>
   );
 };
