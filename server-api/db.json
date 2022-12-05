@@ -1,0 +1,13 @@
+{
+    "users": [{
+            "id": "1",
+            "name": "mery",
+            "email": "farshadnia@gmail.com",
+            "phone": "09134360882",
+            "gender": "1",
+            "password": "Mery123#",
+            "passwordConfirm": "Mery123#"
+        }
+
+    ]
+}
