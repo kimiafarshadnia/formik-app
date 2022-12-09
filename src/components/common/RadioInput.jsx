@@ -1,6 +1,6 @@
 import React from "react";
 
-const RadioInput = ({label, name, formik, radioOptions}) => {
+const RadioInput = ({ name, formik, radioOptions}) => {
     return ( 
         <div>
        {
@@ -12,7 +12,7 @@ const RadioInput = ({label, name, formik, radioOptions}) => {
                    value={item.value}
                    onChange={formik.handleChange} 
                    checked={formik.values.gender === item.value}/>
-                <label htmlFor={item.value}>Male</label>
+                <label htmlFor={item.value}>{item.label}</label>
 
             </React.Fragment>
         ))
