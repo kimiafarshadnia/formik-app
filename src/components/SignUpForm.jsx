@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import axios from "axios";
 import { useEffect } from "react";
 import Input from "./common/Input";
+import RadioInput from "./common/RadioInput";
 //1
 
 // const savedData = {
@@ -15,6 +16,10 @@ import Input from "./common/Input";
 //   passwordConfirm:"Kimia12#",
 // };
 
+const radioOptions =[
+  {label:"male", value:"0"},
+  {label:"female", value:"1"}
+]
 
 const initialValues = {
   name: "",
@@ -80,17 +85,7 @@ const SignUpForm = () => {
       <Input formik={formik} name="passwordConfirm" label="Password Confirm" type="password"/>
 
       
-      <div>
-        <input type="radio" name="gender" id="0" value="0" onChange={formik.handleChange} checked={formik.values.gender === "0"}/>
-        <label htmlFor="0">Male</label>
-
-        <input type="radio" name="gender" id="1" value="1" onChange={formik.handleChange}  checked={formik.values.gender === "1"}/>
-        <label htmlFor="1">Female</label>
-
-        {formik.errors.gender && formik.touched.gender && (
-          <div className="error">{formik.errors.gender}</div>
-        )}
-      </div>
+      <RadioInput formik={formik} name="gender" radioOptions={radioOptions}/>
  
       
 

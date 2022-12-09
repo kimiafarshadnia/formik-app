@@ -1,4 +1,4 @@
-const Input =({label, name, formik, type="text"   }) => {
+const Input =({label, name, formik, type="text"}) => {
 return(
     <div>
         <label htmlFor={name}>{label}</label>
