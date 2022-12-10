@@ -5,6 +5,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import Input from "./common/Input";
 import RadioInput from "./common/RadioInput";
+import SelectInput from "./common/SelectInput";
 //1
 
 // const savedData = {
@@ -17,8 +18,16 @@ import RadioInput from "./common/RadioInput";
 // };
 
 const radioOptions =[
-  {label:"male", value:"0"},
-  {label:"female", value:"1"}
+  {label:"Male", value:"0"},
+  {label:"Female", value:"1"}
+]
+
+const selectOptions =[
+  {label:"select your age ...", value:""},
+  {label:"1-10", value:"children"},
+  {label:"10-18", value:"teenager"},
+  {label:"18-25", value:"young"},
+  {label:"25-older", value:"midelage"},
 ]
 
 const initialValues = {
@@ -26,6 +35,7 @@ const initialValues = {
   email: "",
   phone:"",
   gender:"",
+  age:"",
   password: "",
   passwordConfirm:"",
 };
@@ -44,6 +54,8 @@ const validationSchema = Yup.object({
   phone: Yup.string().required("phone number is required").matches(/^[0-9]{11}$/,"Invalid phone number ").nullable(),
 
   gender: Yup.string().required('Gender is required'),
+
+  age: Yup.string().required('Gender is age'),
 
   password : Yup.string().required("Password is required").matches(
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
@@ -86,7 +98,7 @@ const SignUpForm = () => {
 
       
       <RadioInput formik={formik} name="gender" radioOptions={radioOptions}/>
- 
+      <SelectInput formik={formik} name="age" selectOptions={selectOptions}/>
       
 
 
