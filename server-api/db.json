@@ -5,9 +5,11 @@
             "email": "farshadnia@gmail.com",
             "phone": "09134360882",
             "gender": "1",
-            "age": "teenager",
+            "country": "usa",
             "password": "Mery123#",
-            "passwordConfirm": "Mery123#"
+            "passwordConfirm": "Mery123#",
+            "intrests": ["cindrella"],
+            "terms": false
         }
 
     ]

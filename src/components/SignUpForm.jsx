@@ -6,6 +6,8 @@ import { useEffect } from "react";
 import Input from "./common/Input";
 import RadioInput from "./common/RadioInput";
 import SelectInput from "./common/SelectInput";
+import CheckBoxInput from "./common/CheckBoxInput";
+import TermsInput from "./common/TermsInput";
 //1
 
 // const savedData = {
@@ -17,17 +19,24 @@ import SelectInput from "./common/SelectInput";
 //   passwordConfirm:"Kimia12#",
 // };
 
+const checkBoxOptions =[
+  {label:"cindrella", value:"cindrella"},
+  {label:"snowwhite", value:"snowwhite"},
+  {label:"frozen", value:"frozen"},
+  {label:"mickymouse", value:"mickymouse"},
+]
+
 const radioOptions =[
   {label:"Male", value:"0"},
   {label:"Female", value:"1"}
 ]
 
 const selectOptions =[
-  {label:"select your age ...", value:""},
-  {label:"1-10", value:"children"},
-  {label:"10-18", value:"teenager"},
-  {label:"18-25", value:"young"},
-  {label:"25-older", value:"midelage"},
+  {label:"select your country ...", value:""},
+  {label:"Iran", value:"children"},
+  {label:"usa", value:"teencountryr"},
+  {label:"use", value:"young"},
+  {label:"france", value:"midelcountry"},
 ]
 
 const initialValues = {
@@ -35,14 +44,19 @@ const initialValues = {
   email: "",
   phone:"",
   gender:"",
-  age:"",
+  country:"",
   password: "",
   passwordConfirm:"",
+  intrests:[],
+  terms: false
 };
 
 //2
 const onSubmit = (values) => {
-  console.log(values);
+  console.log({...values, newData: "6 may 2022"});
+  axios.post("http://localhost:3001/users", values)
+  .then(res => console.log(res.data))
+  .catch(err => console.log(err))
 };
 
 //3
@@ -55,7 +69,7 @@ const validationSchema = Yup.object({
 
   gender: Yup.string().required('Gender is required'),
 
-  age: Yup.string().required('Gender is age'),
+  country: Yup.string().required('country is required'),
 
   password : Yup.string().required("Password is required").matches(
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
@@ -63,7 +77,12 @@ const validationSchema = Yup.object({
   ), 
 
   passwordConfirm: Yup.string().required(" password confirmation is required")
-  .oneOf([Yup.ref('password'), null], 'Passwords must match')
+  .oneOf([Yup.ref('password'), null], 'Passwords must match'),
+
+  intrests: Yup.array().min(1).required(" at least select one expertise"),
+
+  terms: Yup.boolean().required("the terms and conditions must be accepted")
+  .oneOf([true],"the terms and conditions must be accepted")
 })
 
 const SignUpForm = () => {
@@ -98,10 +117,11 @@ const SignUpForm = () => {
 
       
       <RadioInput formik={formik} name="gender" radioOptions={radioOptions}/>
-      <SelectInput formik={formik} name="age" selectOptions={selectOptions}/>
+      <SelectInput formik={formik} name="country" selectOptions={selectOptions}/>
       
+      <CheckBoxInput formik={formik} name="intrests" checkBoxOptions={checkBoxOptions}/>
 
-
+     <TermsInput formik={formik} />
 
       {/* <button onClick={() => setFormValues(savedData)}>Load Data</button> */}
       <button type="submit" disabled={!formik.isValid}>Submit</button>
